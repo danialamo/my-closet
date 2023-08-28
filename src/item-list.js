@@ -30,9 +30,9 @@ export class ItemList extends LitElement{
     constructor(){
         super();
         this.items = [];
-        this.updateItem; 
+        this.updateItem(); 
     }
-    updateRoster(){
+    updateItem(){
       const address = new URL("../api/item.js", import.meta.url).href; 
       const data = fetch(address).then((response) => {
         if(response.ok){
@@ -40,7 +40,7 @@ export class ItemList extends LitElement{
         }
         return[];
       }).then((data) => {
-        this.players = data;
+        this.items = data;
       });
     }
 
@@ -52,10 +52,9 @@ export class ItemList extends LitElement{
         <div class="item"> 
           <my-closet header="${item.header}" subheader="${item.subheader}" content="${item.content}" image="${item.image}"></my-closet>
         </div>
-        </div>
         `)}
+        </div>
         `
-
     }
 }
 customElements.define(ItemList.tag, ItemList); 
