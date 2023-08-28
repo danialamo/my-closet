@@ -1,5 +1,6 @@
 import { LitElement, html, css } from 'lit';
 import "./my-closet.js";
+import "./search-widget.js";
 
 export class ItemList extends LitElement{
     static get tag(){
@@ -29,16 +30,39 @@ export class ItemList extends LitElement{
     constructor(){
         super();
         this.items = [];
+        this.updateItem; 
+        this.getSearchResults().then((results) => {
+          this.items = results; 
+        }); 
     }
 
-    updateRoster(){
-        fetch(new URL('../assets/list.json', import.meta.url).href);
-    }
+    async getSearchResults(value = '') {
+      const address = `/api/Badge?search=${value}`;
+      const results = await fetch(address).then((response) => {
+          if (response.ok) {
+              return response.json()
+          }
+          return [];
+      })
+      .then((data) => {
+          return data;
+      });
+
+      return results;
+  }
+
+  async _handleSearchEvent(e) {
+      const term = e.detail.value;
+      this.items = await this.getSearchResults(term);
+  }
 
 
 
     render(){
         return html`
+        <div class= "searchbox">
+        <search-widget @value-changed="${this._handleSearchEvent}"></search-widget>
+        </div>
         <div class="wrapper">
         ${this.items.map(item => html`
         <div class="item"> 
