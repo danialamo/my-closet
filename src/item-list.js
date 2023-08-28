@@ -31,38 +31,22 @@ export class ItemList extends LitElement{
         super();
         this.items = [];
         this.updateItem; 
-        this.getSearchResults().then((results) => {
-          this.items = results; 
-        }); 
     }
-
-    async getSearchResults(value = '') {
-      const address = `/api/Badge?search=${value}`;
-      const results = await fetch(address).then((response) => {
-          if (response.ok) {
-              return response.json()
-          }
-          return [];
-      })
-      .then((data) => {
-          return data;
+    updateRoster(){
+      const address = new URL("../api/item.js", import.meta.url).href; 
+      const data = fetch(address).then((response) => {
+        if(response.ok){
+          return response.json()``
+        }
+        return[];
+      }).then((data) => {
+        this.players = data;
       });
-
-      return results;
-  }
-
-  async _handleSearchEvent(e) {
-      const term = e.detail.value;
-      this.items = await this.getSearchResults(term);
-  }
-
+    }
 
 
     render(){
         return html`
-        <div class= "searchbox">
-        <search-widget @value-changed="${this._handleSearchEvent}"></search-widget>
-        </div>
         <div class="wrapper">
         ${this.items.map(item => html`
         <div class="item"> 
