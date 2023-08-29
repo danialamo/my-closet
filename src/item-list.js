@@ -42,7 +42,6 @@ export class ItemList extends LitElement{
       .then((data) => {
         this.items = data;
       });
-      return data; 
     }
 
 
