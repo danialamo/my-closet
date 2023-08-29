@@ -1,6 +1,5 @@
 import { LitElement, html, css } from 'lit';
-import "./my-closet.js";
-import "./search-widget.js";
+import "./my-closet.js"; 
 
 export class ItemList extends LitElement{
     static get tag(){
@@ -14,7 +13,7 @@ export class ItemList extends LitElement{
 
     static get styles(){
         return css `
-          :host{
+          :host{s
             display: block;
           }
           .wrapper{
@@ -36,24 +35,26 @@ export class ItemList extends LitElement{
       const address = new URL("../api/item.js", import.meta.url).href; 
       const data = fetch(address).then((response) => {
         if(response.ok){
-          return response.json()``
+          return response.json()
         }
         return[];
-      }).then((data) => {
+      })
+      .then((data) => {
         this.items = data;
       });
+      return data; 
     }
 
 
     render(){
         return html`
-        <div class="wrapper">
+        <div class= "wrapper">
         ${this.items.map(item => html`
-        <div class="item"> 
-          <my-closet header="${item.header}" subheader="${item.subheader}" content="${item.content}" image="${item.image}"></my-closet>
+        <div class="item">
+        <my-closet header="${item.header}" subheading="${item.subheading}" content="${item.content}" image="${item.image}"></my-closet>
         </div>
         `)}
-        </div>
+      </div>
         `
     }
 }
